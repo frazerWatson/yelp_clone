@@ -69,5 +69,16 @@ feature 'restaurants' do
        expect(page).not_to have_content 'KFC'
        expect(page).to have_content 'Restaurant deleted successfully'
      end
+
+     scenario 'associated reviews are also deleted' do
+       visit '/restaurants'
+       click_link 'Review KFC'
+       fill_in "Thoughts", with: "so so"
+       select '3', from: 'Rating'
+       click_button 'Leave Review'
+       click_link 'Delete KFC'
+       expect( Review.any? ).to be false
+    end
   end
+
 end
